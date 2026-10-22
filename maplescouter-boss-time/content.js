@@ -13,7 +13,8 @@
   // 각 기준 배율에서 예상 클리어 시간이 정확히 20분이 되도록 계산합니다.
   // 예) 표시 배율 250% -> 100% 기준 8분, 130% 기준 10분 24초.
   const LEVELS = [
-    { percent: 100, label: '기본' },
+    { percent: 100, label: '최소컷' },
+    { percent: 110, label: '기본컷' },
     { percent: 130, label: '메청년' },
     { percent: 150, label: '메린이' },
     { percent: 200, label: '메애기' }
@@ -37,7 +38,7 @@
       }
       #${CONTROL_ID} {
         position: fixed;
-        right: 100px;
+        right: 96px;
         bottom: 18px;
         z-index: 2147483640;
         display: flex;
@@ -70,7 +71,7 @@
         overflow-wrap: anywhere;
         margin-top: 3px;
         line-height: 1.55;
-        font-size: 0.85em;
+        font-size: 0.9em;
         font-weight: inherit;
       }
     `;
@@ -103,7 +104,7 @@
       const totalSeconds = bossPercent > 0
         ? Math.round(BASE_MINUTES * 60 * percent / bossPercent)
         : NaN;
-      return `${percent}% [${label}] (${formatTime(totalSeconds)})`;
+      return `${percent}% [${label}]\n(${formatTime(totalSeconds)})`;
     });
 
     active.add(element);
@@ -161,6 +162,7 @@
     const label = document.createElement('label');
     label.textContent = '20분 기준 배율';
     const select = document.createElement('select');
+    select.value = 110;
     select.setAttribute('aria-label', '20분 기준 배율 선택');
     for (const { percent, label: name } of LEVELS) {
       const option = document.createElement('option');
@@ -170,7 +172,7 @@
     }
     const allOption = document.createElement('option');
     allOption.value = 'all';
-    allOption.textContent = '전체 보기 (4가지)';
+    allOption.textContent = '전체 보기 (5가지)';
     select.appendChild(allOption);
     select.value = selectedBasis;
     select.addEventListener('change', () => {
